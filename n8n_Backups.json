@@ -327,6 +327,11 @@
             "node": "Google Drive Audit Folder",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Get all n8n Workflows",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -355,13 +360,7 @@
     },
     "Backup to Google Drive1": {
       "main": [
-        [
-          {
-            "node": "Get all n8n Workflows",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Google Drive Audit Folder": {
@@ -407,7 +406,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "79e4403f-b5ef-4f8c-a681-49d82fa1b5a7",
+  "versionId": "4c86eb26-9d09-4637-ae71-df8182ccb1a4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "3ff5cbedaf29b95a6f48ead432b0577c29a66f31bea8f3a13bd33175ad10872b"
