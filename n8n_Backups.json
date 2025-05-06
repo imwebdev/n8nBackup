@@ -1,0 +1,417 @@
+{
+  "name": "n8n Backups",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 1,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "id": "c20d18f4-afab-4fde-a253-76bf29232b95",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        1420,
+        1780
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "content": "## n8n Workflow Backup – Automating  Backup to Google Drive\n\n#### Modified from template here: https://n8n.io/workflows/3112-backup-n8n-workflows-to-google-drive/\n#### Original version created by Phil -  https://n8n.io/creators/phil\n#### Modified version created by Chirag Chhita ",
+        "width": 1060,
+        "color": 3
+      },
+      "id": "0cf6e807-08cb-4d11-9e8e-5d37a8d87ef2",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        1360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "name": "={{  $json.name+ \".json\"}}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create Google Drive Folder').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "efda7409-58ee-4094-96f1-fcab0293b497",
+      "name": "Backup to Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1800,
+        2700
+      ],
+      "retryOnFail": true,
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ysp1CBQdWSP8OOfi",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        1780
+      ],
+      "id": "4b4c597b-e57b-4c32-bf39-cf592376ff4c",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Date & Time').item.json.currentDate }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1auaImXZqV5NDusxGB2UXL6KwIrqrxXF1",
+          "mode": "list",
+          "cachedResultName": "Backups",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1auaImXZqV5NDusxGB2UXL6KwIrqrxXF1"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1900,
+        1780
+      ],
+      "id": "7b763329-a75b-4cfd-9266-a70a22ec911e",
+      "name": "Create Google Drive Folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ysp1CBQdWSP8OOfi",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audit",
+        "operation": "generate",
+        "additionalOptions": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        2280
+      ],
+      "id": "ba90823e-9716-4178-b5bf-a10284cf2eaa",
+      "name": "Generate n8n Audit",
+      "credentials": {
+        "n8nApi": {
+          "id": "T1Eykv1eWPcUxU3N",
+          "name": "n8n Self Hosted BACKUP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "b18ca23a-7721-4ca7-a7ed-26c83f9c0660",
+      "name": "Get all n8n Workflows",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        1380,
+        2700
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "T1Eykv1eWPcUxU3N",
+          "name": "n8n Self Hosted BACKUP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=data",
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive Audit Folder').first().json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "51ba91ba-ca2b-46f7-8759-dd85f06c3445",
+      "name": "Backup to Google Drive1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        2100,
+        2280
+      ],
+      "retryOnFail": true,
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ysp1CBQdWSP8OOfi",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Start the Trigger and create Google Drive Folder based on the current date/time\n- Set a frequency for the trigger\n- Date and Time node will get the current date and time \n- Use the current date and time to create a new folder on Google Drive",
+        "height": 460,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        1560
+      ],
+      "typeVersion": 1,
+      "id": "4965919d-b21e-4840-972d-5959c85ac4f2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Export n8n Audit Data to Google Drive\n- Create an Audit folder inside your backup folder above\n- Generate your Audit Report\n- Convert the Output of the Report to Markdown\n- Upload the Audit to Googel Drive",
+        "height": 500,
+        "width": 1060,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        2020
+      ],
+      "typeVersion": 1,
+      "id": "2d351da5-1834-4cc4-8c9c-eb642fb3e444",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Export all n8n Workflows\n- Get all workflows inside your n8n Account\n- Converts each JSON workflow to Binary\n- Uploads each workflow to Google Drive",
+        "height": 360,
+        "width": 1060,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        2520
+      ],
+      "typeVersion": 1,
+      "id": "d8355303-dccc-42f3-b744-dad78ef30c7c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "audit",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create Google Drive Folder').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1400,
+        2280
+      ],
+      "id": "d2944df3-03e3-4419-a465-6a41fa597f2f",
+      "name": "Google Drive Audit Folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ysp1CBQdWSP8OOfi",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Universal n8n Security Audit to Markdown converter\n// This handles any structure that might come from the security audit\n\n// Get the audit data from the previous node\nconst auditData = $input.all()[0].json;\n\n// Start markdown with a proper heading and date\nlet markdown = `# n8n Security Audit Report\\n\\n`;\nmarkdown += `**Generated:** ${new Date().toLocaleDateString()}\\n\\n`;\nmarkdown += `## Table of Contents\\n\\n`;\n\n// Add table of contents\nObject.keys(auditData).forEach(key => {\n  const sectionName = key.replace(\" Report\", \"\");\n  const linkName = sectionName.toLowerCase().replace(/\\s+/g, '-');\n  markdown += `- [${sectionName}](#${linkName})\\n`;\n});\nmarkdown += `\\n`;\n\n// Universal function to process any report section\nfunction processReport(reportName, reportData) {\n  let result = `## ${reportName}\\n\\n`;\n  \n  // Process sections if they exist\n  if (reportData.sections && Array.isArray(reportData.sections)) {\n    reportData.sections.forEach(section => {\n      result += `### ${section.title || 'Unnamed Section'}\\n\\n`;\n      \n      // Add description if it exists\n      if (section.description) {\n        result += `${section.description}\\n\\n`;\n      }\n      \n      // Add recommendation if it exists\n      if (section.recommendation) {\n        result += `**Recommendation:** ${section.recommendation}\\n\\n`;\n      }\n      \n      // Process items - could be in different properties depending on the report type\n      const items = section.location || section.nodes || section.items || [];\n      \n      if (items && items.length > 0) {\n        result += `**Affected Items:**\\n\\n`;\n        \n        items.forEach(item => {\n          // Handle different property structures for different report types\n          const name = item.name || item.nodeName || 'Unnamed';\n          const id = item.id || item.nodeId || 'Unknown ID';\n          const kind = item.kind || (item.workflow ? 'Node' : 'Item');\n          \n          // Check if it has workflow info\n          if (item.workflow) {\n            const workflowName = item.workflow.name || 'Unknown Workflow';\n            result += `- **${name}** (in workflow \"${workflowName}\", ID: \\`${id}\\`)\\n`;\n          } else {\n            result += `- **${name}** (${kind}, ID: \\`${id}\\`)\\n`;\n          }\n        });\n        \n        result += `\\n`;\n      }\n    });\n  } \n  // If the report has nodes directly (not in sections)\n  else if (reportData.nodes && Array.isArray(reportData.nodes)) {\n    result += `These nodes may pose security risks.\\n\\n`;\n    result += `**Affected Items:**\\n\\n`;\n    \n    reportData.nodes.forEach(node => {\n      const name = node.name || node.nodeName || 'Unnamed Node';\n      const id = node.id || node.nodeId || 'Unknown ID';\n      \n      if (node.workflow) {\n        const workflowName = node.workflow.name || 'Unknown Workflow';\n        result += `- **${name}** (in workflow \"${workflowName}\", ID: \\`${id}\\`)\\n`;\n      } else {\n        result += `- **${name}** (Node, ID: \\`${id}\\`)\\n`;\n      }\n    });\n    \n    result += `\\n`;\n  }\n  // For any other structure, just show the raw JSON\n  else {\n    result += `Could not process the structure of this report. Raw data:\\n\\n`;\n    result += `\\`\\`\\`json\\n${JSON.stringify(reportData, null, 2)}\\n\\`\\`\\`\\n\\n`;\n  }\n  \n  return result;\n}\n\n// Process each section in the audit data\nObject.keys(auditData).forEach(key => {\n  const reportName = key.replace(\" Report\", \"\");\n  markdown += processReport(reportName, auditData[key]);\n});\n\n// Add summary section at the end\nmarkdown += `## Summary\\n\\n`;\nmarkdown += `This security audit identified potential security concerns in your n8n instance. `;\nmarkdown += `Review the items above and address them according to the recommendations.\\n\\n`;\nmarkdown += `*Generated automatically by n8n Security Audit workflow*\\n`;\n\n// Create filename with date\nconst fileName = `n8n-security-audit-${new Date().toISOString().slice(0,10)}.md`;\n\n// Create binary data from the markdown string\nconst binaryData = Buffer.from(markdown).toString('base64');\n\n// Return both the markdown and the binary data ready for upload\nreturn {\n  json: {\n    fileName: fileName,\n    markdown: markdown\n  },\n  binary: {\n    data: {\n      data: binaryData,\n      mimeType: 'text/markdown',\n      fileName: fileName\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        2280
+      ],
+      "id": "cd5a3201-afc3-45a2-8c9a-c666386fc691",
+      "name": "JSON to Markdown"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const jsonData = JSON.stringify(item.json);\n  const binaryData = Buffer.from(jsonData).toString('base64');\n  item.binary = {\n    data: {\n      data: binaryData,\n      mimeType: 'application/json',\n      fileName: 'data.json'\n    }\n  };\n  return item;\n});"
+      },
+      "id": "588c3ceb-8658-4c76-8cb8-70d8102b5bc9",
+      "name": "JSON to Binary",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1600,
+        2700
+      ],
+      "typeVersion": 2
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Create Google Drive Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Google Drive Folder": {
+      "main": [
+        [
+          {
+            "node": "Google Drive Audit Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate n8n Audit": {
+      "main": [
+        [
+          {
+            "node": "JSON to Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all n8n Workflows": {
+      "main": [
+        [
+          {
+            "node": "JSON to Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backup to Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Get all n8n Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Audit Folder": {
+      "main": [
+        [
+          {
+            "node": "Generate n8n Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backup to Google Drive": {
+      "main": [
+        []
+      ]
+    },
+    "JSON to Markdown": {
+      "main": [
+        [
+          {
+            "node": "Backup to Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON to Binary": {
+      "main": [
+        [
+          {
+            "node": "Backup to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "79e4403f-b5ef-4f8c-a681-49d82fa1b5a7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3ff5cbedaf29b95a6f48ead432b0577c29a66f31bea8f3a13bd33175ad10872b"
+  },
+  "id": "weQT7eoVurCNRnzy",
+  "tags": []
+}
